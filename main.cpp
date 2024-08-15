@@ -3,23 +3,30 @@
 #define NOSOLUTION printf("There is no solution\n")
 #define INFSOLUTION printf("An infinite number of solutions\n")
 
-void beginning(void);
+void introduction(void);
+void scan(void);
 void calculation(float a, float b, float c);
 
+float a = 0.0, b = 0.0, c = 0.0;
 int main() {
-    float a = 0.0, b = 0.0, c = 0.0;
-
-    beginning();
-
-    scanf("%f %f %f", &a, &b, &c);
-
-    calculation(a, b, c);
+    introduction();
+    scan();
 }
 
 
-void beginning(void) {
+void introduction(void) {
     printf("An equation of the form ax^2 + bx + c = 0\n");
     printf("Enter a, b, c separated by a space\n");
+}
+
+
+void scan(void) {
+    int result = scanf("%f %f %f", &a, &b, &c);
+    if (result != 3)
+        printf("Error. Try again\n");
+
+    else
+        calculation(a, b, c);
 }
 
 
