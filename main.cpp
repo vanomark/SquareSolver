@@ -5,7 +5,7 @@
 
 void introduction(void);
 void scan(double *a, double *b, double *c);
-void calculation(double *a, double *b, double *c);
+void calculation(double a, double b, double c);
 
 
 int main() {
