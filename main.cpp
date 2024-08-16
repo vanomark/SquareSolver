@@ -4,13 +4,15 @@
 #define INFSOLUTION printf("An infinite number of solutions\n")
 
 void introduction(void);
-void scan(void);
-void calculation(float a, float b, float c);
+void scan(double *a, double *b, double *c);
+void calculation(double *a, double *b, double *c);
 
-float a = 0.0, b = 0.0, c = 0.0;
+
 int main() {
+    double a = 0, b = 0, c = 0;
     introduction();
-    scan();
+    scan(&a, &b, &c);
+    calculation(a, b, c);
 }
 
 
@@ -20,30 +22,37 @@ void introduction(void) {
 }
 
 
-void scan(void) {
-    int result = scanf("%f %f %f", &a, &b, &c);
-    if (result != 3)
-        printf("Error. Try again\n");
+void scan(double *a, double *b, double *c) {
 
-    else
-        calculation(a, b, c);
+    int result = scanf("%g %g %g", a, b, c);
+
+    if (result != 3) {
+        printf("Error. Try again\n");
+        scan(a, b, c);
+    }
 }
 
 
-void calculation(float a, float b, float c) {
+void calculation(double a, double b, double c) {
+
+    printf("%g %g %g\n", a, b, c);
     if (a && b) {
-        float discriminant;
-        discriminant = b*b - 4*a*c;
+        double discriminant = b*b - 4*a*c;
+        double epsilon = 1.0e-6;
+
         if (discriminant < 0)
             NOSOLUTION;
 
-        if (discriminant == 0)
-            printf("The solution %.3f\n", -b/(2*a));
+        else if (discriminant < epsilon)
+            printf("The solution %g\n", -b/(2*a));
 
-        else printf("Solutions %.3f, %.3f\n", (-b - sqrt(discriminant))/2, (-b + sqrt(discriminant))/2);
+        else {
+            double square_root_1 = sqrt(discriminant);
+            printf("Solutions %g, %g\n", (-b - square_root_1)/2, (-b + square_root_1)/2);
+        }
     }
     else if(!a && b)
-        printf("The solution %.3f\n", -c/b);
+        printf("The solution %g\n", -c/b);
 
     else if(!a && !b && !c)
         INFSOLUTION;
@@ -54,6 +63,8 @@ void calculation(float a, float b, float c) {
     else if(a*c>0)
         NOSOLUTION;
 
-    else
-        printf("Solutions %.3f, %.3f", -sqrt(-c/a), sqrt(-c/a));
+    else {
+        double square_root_2 = sqrt(-c/a);
+        printf("Solutions %g, %g", -square_root_2, square_root_2);
+    }
 }
