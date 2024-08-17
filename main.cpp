@@ -4,12 +4,12 @@
 #define INFSOLUTION printf("An infinite number of solutions\n")
 
 void introduction(void);
-void scan(double *a, double *b, double *c);
-void calculation(double a, double b, double c);
+void scan(float *a, float *b, float *c);
+void calculation(float a, float b, float c);
 
 
 int main() {
-    double a = 0, b = 0, c = 0;
+    float a = 0, b = 0, c = 0;
     introduction();
     scan(&a, &b, &c);
     calculation(a, b, c);
@@ -22,9 +22,9 @@ void introduction(void) {
 }
 
 
-void scan(double *a, double *b, double *c) {
+void scan(float *a, float *b, float *c) {
 
-    int result = scanf("%g %g %g", a, b, c);
+    int result = scanf("%f %f %f", a, b, c);
     int error_count = 0;
 
     while (result != 3) {
@@ -32,12 +32,12 @@ void scan(double *a, double *b, double *c) {
         if (!error_count++)
             printf("Error. Try again\n");
 
-        result = scanf("%g %g %g", a, b, c);
+        result = scanf("%f %f %f", a, b, c);
     }
 }
 
 
-void calculation(double a, double b, double c) {
+void calculation(float a, float b, float c) {
 
     printf("%g %g %g\n", a, b, c);
     if (a && b) {
