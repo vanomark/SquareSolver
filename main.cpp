@@ -25,10 +25,14 @@ void introduction(void) {
 void scan(double *a, double *b, double *c) {
 
     int result = scanf("%g %g %g", a, b, c);
+    int error_count = 0;
 
-    if (result != 3) {
-        printf("Error. Try again\n");
-        scan(a, b, c);
+    while (result != 3) {
+
+        if (!error_count++)
+            printf("Error. Try again\n");
+
+        result = scanf("%g %g %g", a, b, c);
     }
 }
 
