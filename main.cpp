@@ -4,12 +4,12 @@
 #define INFSOLUTION printf("An infinite number of solutions\n")
 
 void introduction(void);
-void scan(float *a, float *b, float *c);
-void calculation(float a, float b, float c);
+void scan(double *a, double *b, double *c);
+void calculation(double a, double b, double c);
 
 
 int main() {
-    float a = 0, b = 0, c = 0;
+    double a = 0, b = 0, c = 0;
     introduction();
     scan(&a, &b, &c);
     calculation(a, b, c);
@@ -22,9 +22,9 @@ void introduction(void) {
 }
 
 
-void scan(float *a, float *b, float *c) {
+void scan(double *a, double *b, double *c) {
 
-    int result = scanf("%f %f %f", a, b, c);
+    int result = scanf("%lf %lf %lf", a, b, c);
 
     while (result != 3) {
 
@@ -32,12 +32,12 @@ void scan(float *a, float *b, float *c) {
 
         while (getchar() != '\n');
 
-        result = scanf("%f %f %f", a, b, c);
+        result = scanf("%lf %lf %lf", a, b, c);
     }
 }
 
 
-void calculation(float a, float b, float c) {
+void calculation(double a, double b, double c) {
 
     if (a && b) {
         double discriminant = b*b - 4*a*c;
