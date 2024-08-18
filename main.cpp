@@ -25,12 +25,12 @@ void introduction(void) {
 void scan(float *a, float *b, float *c) {
 
     int result = scanf("%f %f %f", a, b, c);
-    int error_count = 0;
 
     while (result != 3) {
 
-        if (!error_count++)
-            printf("Error. Try again\n");
+        printf("Error. Try again\n");
+
+        while (getchar() != '\n');
 
         result = scanf("%f %f %f", a, b, c);
     }
@@ -39,7 +39,6 @@ void scan(float *a, float *b, float *c) {
 
 void calculation(float a, float b, float c) {
 
-    printf("%g %g %g\n", a, b, c);
     if (a && b) {
         double discriminant = b*b - 4*a*c;
         double epsilon = 1.0e-6;
