@@ -27,7 +27,6 @@ void scan(double *a, double *b, double *c) {
     int result = scanf("%lf %lf %lf", a, b, c);
 
     while (result != 3) {
-
         printf("Error. Try again\n");
 
         while (getchar() != '\n');
@@ -38,7 +37,7 @@ void scan(double *a, double *b, double *c) {
 
 
 void calculation(double a, double b, double c) {
-
+    
     if (a && b) {
         double discriminant = b*b - 4*a*c;
         double epsilon = 1.0e-6;
