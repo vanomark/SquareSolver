@@ -24,10 +24,6 @@ int main()
     print_roots(x1, x2, root_count);
 }
 
-struct aquation {
-double a, b, c, x1, x2;
-} bubu;
-
 void scan_coeff(double *a, double *b, double *c)
 {
     int result = scanf("%lf %lf %lf", a, b, c);
@@ -44,6 +40,14 @@ void scan_coeff(double *a, double *b, double *c)
     }
 }
 
+int solve(double a, double b, double c, double* x1, double* x2)
+{
+
+    if (a)
+        return solve_square_equation(a, b, c, x1, x2);
+    else
+        return solve_linear_equation(b, c, x1);
+}
 
 int solve_square_equation(double a, double b, double c, double* x1, double* x2)
 {
@@ -97,11 +101,4 @@ void print_roots(double x1, double x2, int root_count)
         default: printf("Error. Something's wrong");
     }
 }
-int solve(double a, double b, double c, double* x1, double* x2)
-{
 
-    if (a)
-        return solve_square_equation(a, b, c, x1, x2);
-    else
-        return solve_linear_equation(b, c, x1);
-}
