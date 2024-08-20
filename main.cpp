@@ -12,17 +12,22 @@ int solve(double a, double b, double c, double *x1, double* x2);
 const double epsilon = 1e-6;
 const int INF = -1;
 
+struct equation {
+double a, b, c, x1, x2;
+};
+
 int main()
 {
     printf("An equation of the form ax^2 + bx + c = 0\n");
     printf("Enter a, b, c separated by a space\n");
+    struct equation eq1 = {};
 
-    double a = 0, b = 0, c = 0, x1 = 0, x2 = 0;
-
-    scan_coeff(&a, &b, &c);
-    int root_count = solve(a, b, c, &x1, &x2);
-    print_roots(x1, x2, root_count);
+    scan_coeff(&eq1.a, &eq1.b, &eq1.c);
+    int root_count = solve(eq1.a, eq1.b, eq1.c, &eq1.x1, &eq1.x2);
+    print_roots(eq1.x1, eq1.x2, root_count);
 }
+
+
 
 void scan_coeff(double *a, double *b, double *c)
 {
@@ -42,7 +47,6 @@ void scan_coeff(double *a, double *b, double *c)
 
 int solve(double a, double b, double c, double* x1, double* x2)
 {
-
     if (a)
         return solve_square_equation(a, b, c, x1, x2);
     else
@@ -70,7 +74,7 @@ int solve_square_equation(double a, double b, double c, double* x1, double* x2)
 
 int solve_linear_equation(double b, double c, double* x1)
 {
-    if (b && c || b && !c) {
+    if (b && c || b && c) {
         *x1 = -c/b;
         return 1;
 
