@@ -25,8 +25,6 @@ struct equation {
 
 int main()
 {
-
-
     printf("A solver of equation of the form ax^2 + bx + c = 0\n\n");
     printf("%14s %8s %20s\nto start solving  %30s",
            "Enter \"Start\"", "or", "Enter \"Test\"",
@@ -146,12 +144,12 @@ void print_roots(double x1, double x2, int root_count)
 void run_all_tests()
 {
     struct equation test = {};
-
     FILE *fp = fopen("test.txt","r");
 
     while (fscanf(fp, "%lf %lf %lf %lf %lf %d", &test.a, &test.b, &test.c, &test.x1, &test.x2, &test.root_count) != EOF)
         run_test(test);
 
+    fclose(fp);
 }
 
 void run_test(struct equation eq)
