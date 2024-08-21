@@ -30,6 +30,7 @@ int main()
     scan_coeff(&eq1.a, &eq1.b, &eq1.c);
     eq1.right_root_count = solve(&eq1);
     print_roots(eq1.right_x1, eq1.right_x2, eq1.right_root_count); */
+
     return 666;
 }
 
@@ -53,6 +54,8 @@ void scan_coeff(double *a, double *b, double *c)
 
 int solve(struct equation *eq)
 {
+    assert(eq != NULL);
+
     if (eq->a)
         return solve_square_equation(eq->a, eq->b, eq->c, &(eq->right_x1), &eq->right_x2);
     else
@@ -116,31 +119,32 @@ void print_roots(double x1, double x2, int root_count)
 
 void all_tests()
 {
-    struct equation test[20]  = {
-        {1, 0, -4, -2, 2, 2},      // Test 1
-        {0, 0, 0, 0, 0, -1},       // Test 2
-        {0, 0, -10, 0, 0, 0},      // Test 3
-        {0, 1, -10, 10, 0, 1},     // Test 4
-        {10, 0, -10, -1, 1, 2},    // Test 5
-        {1, 2, -3, -3, 1, 2},      // Test 6
-        {0.5, 1, -1.5, -3, 1, 2},  // Test 7
-        {-10, 0, -1, 0, 0, 0},     // Test 8
-        {4, 4, 0, -1, 0, 2},       // Test 9
-        {4, 4, 1, -0.5, 0, 1},     // Test 10
-        {1, 13, -14, -14, 1, 2},   // Test 11
-        {1, 1, 1, 0, 0, 0},        // Test 12
-        {1, 1, 0, -1, 0, 2},       // Test 13
-        {0, -98, 0, 0, 0, 1},      // Test 14
-        {2, 2, 2, 0, 0, 0},        // Test 15
-        {2, 2, 0.5,-0.5, 0, 1},    // Test 16
-        {1, 9, -10, -10, 1, 2},    // Test 17
-        {15, 0, 0, 0, 0, 1},       // Test 18
-        {3, 0, -3, -1, 1, 2},      // Test 19
-        {0, 0, -10, 0, 0, 0}       // Test 20
+    struct equation test[20] = {
+        {  1,   0,   -4,   -2,   2,   2},  // Test 1
+        {  0,   0,    0,    0,   0,  -1},  // Test 2
+        {  0,   0,  -10,    0,   0,   0},  // Test 3
+        {  0,   1,  -10,   10,   0,   1},  // Test 4
+        { 10,   0,  -10,   -1,   1,   2},  // Test 5
+        {  1,   2,   -3,   -3,   1,   2},  // Test 6
+        {0.5,   1, -1.5,   -3,   1,   2},  // Test 7
+        {-10,   0,   -1,    0,   0,   0},  // Test 8
+        {  4,   4,    0,   -1,   0,   2},  // Test 9
+        {  4,   4,    1, -0.5,   0,   1},  // Test 10
+        {  1,  13,  -14,  -14,   1,   2},  // Test 11
+        {  1,   1,    1,    0,   0,   0},  // Test 12
+        {  1,   1,    0,   -1,   0,   2},  // Test 13
+        {  0, -98,    0,    0,   0,   1},  // Test 14
+        {  2,   2,    2,    0,   0,   0},  // Test 15
+        {  2,   2,  0.5, -0.5,   0,   1},  // Test 16
+        {  1,   9,  -10,  -10,   1,   2},  // Test 17
+        { 15,   0,    0,    0,   0,   1},  // Test 18
+        {  3,   0,   -3,   -1,   1,   2},  // Test 19
+        {  0,   0,  -10,    0,   0,   0}   // Test 20
+
     } ;
 
     for (int i = 0; i < 20; i++)
-            run_test(test[i]);
+        run_test(test[i]);
 
 }
 
@@ -155,12 +159,12 @@ void run_test(struct equation eq)
     int root_count = solve(&test_case);
 
     if (root_count != eq.right_root_count || test_case.right_x1 != eq.right_x1 || test_case.right_x2 != eq.right_x2) {
-        printf("Test %d: Error \na = %lg, b = %lg, c = %lg,\nProgramm: x1 = %lg, x2 = %lg, root_count = %d\n"
+        printf("Test %d: Error \na = %lg, b = %lg, c = %lg,\n"
+               "Programm: x1 = %lg, x2 = %lg, root_count = %d\n"
                "Expected: x1 = %lg, x2 = %lg, root_count = %d\n\n",
                     i, eq.a, eq.b, eq.c, test_case.right_x1, test_case.right_x2, root_count,
                     eq.right_x1, eq.right_x2, eq.right_root_count);
-    } else
+    } else {
         printf("Test %d: Success\n\n", i);
+    }
 }
-
-
