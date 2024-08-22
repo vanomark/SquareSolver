@@ -4,18 +4,19 @@
 #include <string.h>
 #include <ctype.h>
 
-void scan_coeff            (double *a, double *b, double *c);
-void print_roots           (double a, double b, double c);
-int  solve_square_equation (double a, double b, double c, double* x1, double* x2);
-int  solve_linear_equation (double b, double c, double* x1);
-void print_roots           (double x1, double x2, int root_count);
-int  solve                 (struct equation *eq);
-void run_test              (struct equation eq);
-void run_all_tests         (void);
-void turn_lowercase        (char *str);
+void   scan_coeff            (double *a, double *b, double *c);
+void   print_roots           (double a, double b, double c);
+int    solve_square_equation (double a, double b, double c, double* x1, double* x2);
+int    solve_linear_equation (double b, double c, double* x1);
+void   print_roots           (double x1, double x2, int root_count);
+int    solve                 (struct equation *eq);
+void   run_test              (struct equation eq);
+void   run_all_tests         (void);
+void   turn_lowercase        (char *str);
+double abs                   (double x);
 
-const double EPSILON     = 1e-6;
-const int    INF         =   -1;
+const double EPS         = 1e-8;
+const int    INFINITE    =   -1;
 const int    BUFFER_SIZE =   40;
 
 struct equation {
@@ -77,11 +78,16 @@ void scan_coeff(double *a, double *b, double *c)
     }
 }
 
+double abs(double x)
+{
+return x = (x > 0)? x : -x;
+}
+
 int solve(struct equation *eq)
 {
     assert(eq != NULL);
 
-    if (eq->a)
+    if (abs(eq->a) > EPS)
         return solve_square_equation(eq->a, eq->b, eq->c, &(eq->x1), &eq->x2);
     else
         return solve_linear_equation(eq->b, eq->c, &eq->x1);
@@ -97,7 +103,7 @@ int solve_square_equation(double a, double b, double c, double* x1, double* x2)
     if (discriminant < 0) {
         return 0;
 
-    } else if (discriminant < EPSILON) {
+    } else if (discriminant < EPS) {
         *x1 = -b/(2*a);
         return 1;
 
@@ -112,14 +118,16 @@ int solve_square_equation(double a, double b, double c, double* x1, double* x2)
 
 int solve_linear_equation(double b, double c, double* x1)
 {
-    if (b && c || b && !c) {
+    assert(x1 != NULL);
+
+    if ((abs(b) > EPS && abs(c) < EPS) || (abs(b) > EPS && abs(c) > EPS)) {
         *x1 = -c/b;
         return 1;
 
-    } else if(!b && !c) {
+    } else if(abs(b) < EPS && abs(c) < EPS) {
         return -1;
 
-    } else if(!b && c) {
+    } else if(abs(b) < EPS && abs(c) > EPS) {
         return 0;
     }
 }
@@ -128,7 +136,7 @@ void print_roots(double x1, double x2, int root_count)
 {
     switch(root_count) {
 
-        case INF: printf("An infinite number of solutions\n");
+        case INFINITE: printf("An infinite number of solutions\n");
                     break;
 
         case 0: printf("There is no solution\n");
