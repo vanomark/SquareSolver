@@ -31,22 +31,25 @@ int main()
            "to start testing\n\n" );
 
     char str[BUFFER_SIZE] = "";
-    scanf("%s",str);
-    turn_lowercase(str);
+    do {
+        scanf("%s",str);
+        turn_lowercase(str);
 
-    if (!strcmp(str,"test"))
-    {
-        run_all_tests();
+        if (!strcmp(str,"test"))
+        {
+            run_all_tests();
 
-    } else {
-        printf("\nEnter a, b, c separated by a space\n");
-        struct equation eq1 = {};
+        } else if (!strcmp(str,"start")) {
+            printf("\nEnter a, b, c separated by a space\n");
+            struct equation eq1 = {};
 
-        scan_coeff(&eq1.a, &eq1.b, &eq1.c);
-        eq1.root_count = solve(&eq1);
-        print_roots(eq1.x1, eq1.x2, eq1.root_count);
-    }
-    return 666;
+            scan_coeff(&eq1.a, &eq1.b, &eq1.c);
+            eq1.root_count = solve(&eq1);
+            print_roots(eq1.x1, eq1.x2, eq1.root_count);
+        }
+    } while (strcmp(str,"test") && strcmp(str,"start"));
+
+return 666;
 }
 
 void turn_lowercase(char *str)
