@@ -15,6 +15,9 @@ void run_all_tests(const char *NameOfFile)
 
 void run_test(struct equation eq)
 {
+    HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(color, 4);
+
     static short i = 0;
     i++;
     struct equation test_case = {};
@@ -24,12 +27,18 @@ void run_test(struct equation eq)
     int root_count = solve(&test_case);
 
     if (root_count != eq.root_count || test_case.x1 != eq.x1 || test_case.x2 != eq.x2) {
+        SetConsoleTextAttribute(color, 4);
         printf("\nTest %d: Error \na = %lg, b = %lg, c = %lg,\n"
                "Programm: x1 = %lg, x2 = %lg, root_count = %d\n"
                "Expected: x1 = %lg, x2 = %lg, root_count = %d\n",
                     i, eq.a, eq.b, eq.c, test_case.x1, test_case.x2, root_count,
                     eq.x1, eq.x2, eq.root_count);
+        SetConsoleTextAttribute(color, 7);
+
     } else {
+        SetConsoleTextAttribute(color, 10);
         printf("Test %d: Success\n\n", i);
+        SetConsoleTextAttribute(color, 7);
+
     }
 }

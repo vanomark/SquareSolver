@@ -12,6 +12,8 @@
 
 int main()
 {
+    HANDLE color = GetStdHandle (STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(color, 6);
     printf("A solver of equation of the form ax^2 + bx + c = 0\n\n");
     printf("%14s %8s %20s\nto start solving  %30s",
            "Enter \"Start\"", "or", "Enter \"Test\"",

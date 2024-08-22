@@ -1,6 +1,7 @@
 #ifndef RUN_TEST_FILE_H
 #define RUN_TEST_FILE_H
 
+#include <windows.h>
 #include <stdio.h>
 #include "SolveFile.h"
 

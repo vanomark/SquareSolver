@@ -1,3 +1,4 @@
+#include <windows.h>
 void   scan_coeff            (double *a, double *b, double *c);
 void   print_roots           (double x1, double x2, int root_count);
 int    solve                 (struct equation *eq);

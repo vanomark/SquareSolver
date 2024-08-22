@@ -11,20 +11,26 @@ void scan_coeff(double *a, double *b, double *c)
     while (result != 3) {
         char ch = getchar();
 
+        HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
+        SetConsoleTextAttribute(color, 4);
+
         printf("Error. Try again\n");
+
 
         while (ch != '\n' && ch != EOF)
             ch = getchar();
-
+        SetConsoleTextAttribute(color, 6);
         result = scanf("%lf %lf %lf", a, b, c);
     }
 }
 
 void print_roots(double x1, double x2, int root_count)
 {
+    HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(color, 15);
     switch(root_count) {
 
-        case INFINITE: printf("An infinite number of solutions\n");
+        case INFINITE_ROOTS: printf("An infinite number of solutions\n");
                     break;
 
         case 0: printf("There is no solution\n");
@@ -38,4 +44,5 @@ void print_roots(double x1, double x2, int root_count)
 
         default: printf("Error. Something's wrong\n");
     }
+    SetConsoleTextAttribute(color, 7);
 }
