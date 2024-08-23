@@ -1,15 +1,15 @@
 #include "SolveFile.h"
 
-double abs(double x)
+int is_zero(double x) 
 {
-    return  (x > 0) ? x : -x;
+    return  (fabs(x) < EPS) ? 1 : 0;
 }
 
 int solve(struct equation *eq)
 {
-    assert(eq != NULL);
+    assert(eq);
 
-    if (abs(eq->a) > EPS)
+    if (!is_zero(eq->a)) 
         return solve_square_equation(eq->a, eq->b, eq->c, &(eq->x1), &eq->x2);
     else
         return solve_linear_equation(eq->b, eq->c, &eq->x1);
@@ -17,39 +17,45 @@ int solve(struct equation *eq)
 
 int solve_square_equation(double a, double b, double c, double* x1, double* x2)
 {
-    assert(x1 != NULL);
-    assert(x2 != NULL);
+    assert(x1); 
+    assert(x2);
+    assert(isfinite(a));
+    assert(isfinite(b));
+    assert(isfinite(c));
 
     double discriminant = b*b - 4*a*c;
 
     if (discriminant < 0) {
-        return 0;
+        return NO_ROOTS;
 
-    } else if (discriminant < EPS) {
+    } else if (is_zero(discriminant)) {
         *x1 = -b/(2*a);
-        return 1;
+        return ONE_ROOT;
 
     } else {
         double square_root = sqrt(discriminant);
 
         *x1 = (-b - square_root)/(2*a);
         *x2 = (-b + square_root)/(2*a);
-        return 2;
+        return TWO_ROOTS;
     }
 }
 
 int solve_linear_equation(double b, double c, double* x1)
 {
-    assert(x1 != NULL);
+    assert(x1);
+    assert(isfinite(b));
+    assert(isfinite(c));
 
-    if ((abs(b) > EPS && abs(c) < EPS) || (abs(b) > EPS && abs(c) > EPS)) {
+    if ((!is_zero(b) && is_zero(c)) || (!is_zero(b)  && !is_zero(c))) {
         *x1 = -c/b;
-        return 1;
+        return ONE_ROOT;
 
-    } else if(abs(b) < EPS && abs(c) < EPS) {
-        return -1;
+    } else if(is_zero(b) && is_zero(c)) {
+        return INFINITE_ROOTS;
 
-    } else if(abs(b) < EPS && abs(c) > EPS) {
-        return 0;
+    } else if(is_zero(b) && !is_zero(c)) {
+        return NO_ROOTS;
     }
+    return 666;
 }

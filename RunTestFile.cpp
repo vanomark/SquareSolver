@@ -16,7 +16,7 @@ void run_all_tests(const char *NameOfFile)
 void run_test(struct equation eq)
 {
     HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(color, 4);
+    SetConsoleTextAttribute(color, RED_SYMBOLS_BLACK_BACKGROUND);
 
     static short i = 0;
     i++;
@@ -26,19 +26,19 @@ void run_test(struct equation eq)
     test_case.c = eq.c;
     int root_count = solve(&test_case);
 
-    if (root_count != eq.root_count || test_case.x1 != eq.x1 || test_case.x2 != eq.x2) {
+    if (root_count != eq.root_count || !is_zero(test_case.x1 - eq.x1) || !is_zero(test_case.x2 - eq.x2)) {
         SetConsoleTextAttribute(color, 4);
         printf("\nTest %d: Error \na = %lg, b = %lg, c = %lg,\n"
                "Programm: x1 = %lg, x2 = %lg, root_count = %d\n"
                "Expected: x1 = %lg, x2 = %lg, root_count = %d\n",
                     i, eq.a, eq.b, eq.c, test_case.x1, test_case.x2, root_count,
                     eq.x1, eq.x2, eq.root_count);
-        SetConsoleTextAttribute(color, 7);
+        SetConsoleTextAttribute(color, DEFAULT_COLOR);
 
     } else {
-        SetConsoleTextAttribute(color, 10);
+        SetConsoleTextAttribute(color, GREEN_SYMBOLS_BLACK_BACKGROUND);
         printf("Test %d: Success\n\n", i);
-        SetConsoleTextAttribute(color, 7);
+        SetConsoleTextAttribute(color, DEFAULT_COLOR);
 
     }
 }
