@@ -4,6 +4,12 @@ void run_all_tests(const char *NameOfFile)
 {
     struct equation test = {};
     FILE *fp = fopen(NameOfFile,"r");
+    if(!fp) {
+        printf("%sError. Wrong file was given\n%s", 
+                RED_SYMBOLS,
+                DEFAULT_COLOR);
+        exit(0);
+    }
 
     while (fscanf(fp, "%lf %lf %lf %lf %lf %d", &test.a, &test.b, &test.c,
                                                 &test.x1, &test.x2,
@@ -15,9 +21,6 @@ void run_all_tests(const char *NameOfFile)
 
 void run_test(struct equation eq)
 {
-    HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(color, RED_SYMBOLS_BLACK_BACKGROUND);
-
     static short i = 0;
     i++;
     struct equation test_case = {};
@@ -26,19 +29,20 @@ void run_test(struct equation eq)
     test_case.c = eq.c;
     int root_count = solve(&test_case);
 
-    if (root_count != eq.root_count || !is_zero(test_case.x1 - eq.x1) || !is_zero(test_case.x2 - eq.x2)) {
-        SetConsoleTextAttribute(color, 4);
-        printf("\nTest %d: Error \na = %lg, b = %lg, c = %lg,\n"
+    if (root_count != eq.root_count || !is_zero(test_case.x1 - eq.x1) 
+                                    || !is_zero(test_case.x2 - eq.x2)) {
+        
+        printf("%s\nTest %d: Error \na = %lg, b = %lg, c = %lg,\n"
                "Programm: x1 = %lg, x2 = %lg, root_count = %d\n"
-               "Expected: x1 = %lg, x2 = %lg, root_count = %d\n",
+               "Expected: x1 = %lg, x2 = %lg, root_count = %d\n%s",
+                    RED_SYMBOLS, 
                     i, eq.a, eq.b, eq.c, test_case.x1, test_case.x2, root_count,
-                    eq.x1, eq.x2, eq.root_count);
-        SetConsoleTextAttribute(color, DEFAULT_COLOR);
+                    eq.x1, eq.x2, eq.root_count,
+                    DEFAULT_COLOR);
 
     } else {
-        SetConsoleTextAttribute(color, GREEN_SYMBOLS_BLACK_BACKGROUND);
-        printf("Test %d: Success\n\n", i);
-        SetConsoleTextAttribute(color, DEFAULT_COLOR);
-
+        printf("%sTest %d: Success\n\n%s", 
+                GREEN_SYMBOLS, i,
+                DEFAULT_COLOR);
     }
 }

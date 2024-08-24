@@ -17,15 +17,14 @@ enum N_ROOTS {
 
 #ifndef CONS_COL
 #define CONS_COL
-enum CONSOLE_COLORS {
-    CYAN_SYMBOLS_BLACK_BACKGROUND       = 3,
-    RED_SYMBOLS_BLACK_BACKGROUND        = 4,
-    YELLOW_SYMBOLS_BLACK_BACKGROUND     = 6,
-    DEFAULT_COLOR                       = 7,
-    LIGHTWHITE_SYMBOLS_BLACK_BACKGROUND = 15,
-    GREEN_SYMBOLS_BLACK_BACKGROUND      = 10,
 
-};
+#define GREEN_SYMBOLS       "\033[1;32m"
+#define RED_SYMBOLS         "\033[1;31m"
+#define CYAN_SYMBOLS        "\033[1;36m"
+#define YELLOW_SYMBOLS      "\033[1;33m"
+#define DEFAULT_COLOR       "\033[0m"
+#define LIGHTWHITE_SYMBOLS  "\033[1;37m"
+
 #endif
 
 void   turn_lowercase        (char *str);

@@ -9,39 +9,45 @@ void scan_coeff(double *a, double *b, double *c)
     int result = scanf("%lf %lf %lf", a, b, c);
 
     while (result != 3) {
-        char ch = (char)getchar();
-        HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
+        char ch = (char)getchar();        
         
-        SetConsoleTextAttribute(color, RED_SYMBOLS_BLACK_BACKGROUND);
-        printf("Error. Try again\n");
+        printf("%sError. Try again\n%s", 
+                RED_SYMBOLS, 
+                CYAN_SYMBOLS);
 
         while (ch != '\n' && ch != EOF)
             ch = (char)getchar();
         
-        SetConsoleTextAttribute(color, 3);
         result = scanf("%lf %lf %lf", a, b, c);
     }
 }
 
 void print_roots(double x1, double x2, int root_count)
 {
-    HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(color, LIGHTWHITE_SYMBOLS_BLACK_BACKGROUND); 
     switch(root_count) {
         
-        case INFINITE_ROOTS: printf("An infinite number of solutions\n");
+        case INFINITE_ROOTS: printf("%sAn infinite number of solutions\n%s", 
+                                    LIGHTWHITE_SYMBOLS,
+                                    DEFAULT_COLOR);
                     break;
 
-        case NO_ROOTS: printf("There is no solution\n"); 
+        case NO_ROOTS: printf("%sThere is no solution\n%s", 
+                            LIGHTWHITE_SYMBOLS, 
+                            DEFAULT_COLOR); 
                     break;
 
-        case ONE_ROOT: printf("The solution %.3lg\n", x1);
+        case ONE_ROOT: printf("%sThe solution %.3lg\n%s",  
+                            LIGHTWHITE_SYMBOLS, x1,
+                            DEFAULT_COLOR);
                     break;
 
-        case TWO_ROOTS: printf("x1 = %.3lg, x2 = %.3lg\n", x1, x2);
+        case TWO_ROOTS: printf("%sx1 = %.3lg, x2 = %.3lg\n%s", 
+                            LIGHTWHITE_SYMBOLS, x1, x2, 
+                            DEFAULT_COLOR);
                     break;
 
-        default: printf("Error. Something's wrong\n");
+        default: printf("%sError. Something's wrong\n%s", 
+                        RED_SYMBOLS, 
+                        DEFAULT_COLOR);
     }
-    SetConsoleTextAttribute(color, DEFAULT_COLOR);
 }
