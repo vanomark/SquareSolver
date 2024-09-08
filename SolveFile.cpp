@@ -2,60 +2,72 @@
 
 int is_zero(double x) 
 {
-    return  (fabs(x) < EPS) ? 1 : 0;
+    return fabs(x) < EPS; 
 }
 
-int solve(struct equation *eq)
-{
-    assert(eq);
+int solve_equation(struct equation *eq)
+{   
+    ASSERT(eq != NULL, "Pointer cannot be zero");
 
     if (!is_zero(eq->a)) 
-        return solve_square_equation(eq->a, eq->b, eq->c, &(eq->x1), &eq->x2);
+        eq->root_count = solve_square_equation(eq->a, eq->b, eq->c, &(eq->x1), &eq->x2);
     else
-        return solve_linear_equation(eq->b, eq->c, &eq->x1);
+        eq->root_count = solve_linear_equation(eq->b, eq->c, &eq->x1);
+    
+    return 0;
 }
 
-int solve_square_equation(double a, double b, double c, double* x1, double* x2)
-{
-    assert(x1); 
-    assert(x2);
-    assert(isfinite(a));
-    assert(isfinite(b));
-    assert(isfinite(c));
+enum N_ROOTS solve_square_equation(double a, double b, double c, double* x1_ptr, double* x2_ptr)
+{   
+    ASSERT(x1_ptr != NULL, "Pointer cannot be zero"); 
+    ASSERT(x2_ptr != NULL, "Pointer cannot be zero"); 
+    ASSERT(isfinite(*x1_ptr), "Not a number");
+    ASSERT(isfinite(*x2_ptr), "Not a number");
+    ASSERT(isfinite(a), "Coefficient cannot be NAN");
+    ASSERT(isfinite(b), "Coefficient cannot be NAN");
+    ASSERT(isfinite(c), "Coefficient cannot be NAN");
 
     double discriminant = b*b - 4*a*c;
 
     if (discriminant < 0) {
+
         return NO_ROOTS;
 
     } else if (is_zero(discriminant)) {
-        *x1 = -b/(2*a);
+        *x1_ptr = -b/(2*a);
+        
         return ONE_ROOT;
 
     } else {
         double square_root = sqrt(discriminant);
 
-        *x1 = (-b - square_root)/(2*a);
-        *x2 = (-b + square_root)/(2*a);
-        return TWO_ROOTS;
+        *x1_ptr = (-b - square_root)/(2*a);
+        *x2_ptr = (-b + square_root)/(2*a);
+      
+        return TWO_ROOTS;  
     }
 }
 
-int solve_linear_equation(double b, double c, double* x1)
+enum N_ROOTS solve_linear_equation(double b, double c, double* x1_ptr)
 {
-    assert(x1);
-    assert(isfinite(b));
-    assert(isfinite(c));
+    ASSERT(x1_ptr != NULL, "Pointer cannot be zero");
+    ASSERT(isfinite(*x1_ptr), "Not a number");
+    ASSERT(isfinite(b), "Coefficient cannot be NAN");
+    ASSERT(isfinite(c), "Coefficient cannot be NAN");
 
     if ((!is_zero(b) && is_zero(c)) || (!is_zero(b)  && !is_zero(c))) {
-        *x1 = -c/b;
+        *x1_ptr = -c/b;
+
         return ONE_ROOT;
 
     } else if(is_zero(b) && is_zero(c)) {
+
         return INFINITE_ROOTS;
 
     } else if(is_zero(b) && !is_zero(c)) {
+        
         return NO_ROOTS;
     }
-    return 666;
+
+    return ERROR_ROOTS;
 }

@@ -1,48 +1,78 @@
 #include "RunTestFile.h"
 
-void run_all_tests(const char *NameOfFile)
-{
-    struct equation test = {};
-    FILE *fp = fopen(NameOfFile,"r");
-    if(!fp) {
-        printf("%sError. Wrong file was given\n%s", 
-                RED_SYMBOLS,
-                DEFAULT_COLOR);
-        exit(0);
-    }
+int run_all_tests(const char *name_of_file) 
+{   
+    ASSERT(name_of_file != NULL, "Pointer cannot be zero");
 
-    while (fscanf(fp, "%lf %lf %lf %lf %lf %d", &test.a, &test.b, &test.c,
-                                                &test.x1, &test.x2,
-                                                &test.root_count) != EOF)
-        run_test(test);
+    YELLOW_PRINT("Let's test this son of a bitch then!\n\n"); 
+    
+    FILE *test_file = fopen(name_of_file, "r");
+    ASSERT(test_file != 0, "Wrong file was given");    
 
-    fclose(fp);
+    equation test = {};
+    size_t num_test = 0;
+
+    while (fscanf(test_file, "%lf %lf %lf %lf %lf %d", &test.a, &test.b, &test.c,
+                                                       &test.x1, &test.x2,
+                                                       &test.root_count) != EOF)
+        run_test(test, ++num_test);
+
+    fclose(test_file);
+
+    return 0;
 }
 
-void run_test(struct equation eq)
-{
-    static short i = 0;
-    i++;
-    struct equation test_case = {};
-    test_case.a = eq.a;
-    test_case.b = eq.b;
-    test_case.c = eq.c;
-    int root_count = solve(&test_case);
+int run_test(struct equation eq, size_t num_test)
+{   
+    ASSERT(isfinite(eq.a),          "Not a number");
+    ASSERT(isfinite(eq.b),          "Not a number");
+    ASSERT(isfinite(eq.c),          "Not a number");
+    ASSERT(isfinite(eq.x1),         "Not a number");
+    ASSERT(isfinite(eq.x2),         "Not a number");
+    ASSERT(isfinite(eq.root_count), "Not a number");
+    ASSERT(isfinite(num_test),      "Not a number");
 
-    if (root_count != eq.root_count || !is_zero(test_case.x1 - eq.x1) 
-                                    || !is_zero(test_case.x2 - eq.x2)) {
+    struct equation test_case = {
+        .a = eq.a,
+        .b = eq.b,
+        .c = eq.c,
+    };
+
+    solve_equation(&test_case);
+
+    if (test_case.root_count != eq.root_count
+        || !is_zero(test_case.x1 - eq.x1) || !is_zero(test_case.x2 - eq.x2)) {
         
-        printf("%s\nTest %d: Error \na = %lg, b = %lg, c = %lg,\n"
-               "Programm: x1 = %lg, x2 = %lg, root_count = %d\n"
-               "Expected: x1 = %lg, x2 = %lg, root_count = %d\n%s",
-                    RED_SYMBOLS, 
-                    i, eq.a, eq.b, eq.c, test_case.x1, test_case.x2, root_count,
-                    eq.x1, eq.x2, eq.root_count,
-                    DEFAULT_COLOR);
+        RED_PRINT_ARG("Test %d: Error \na = %lg, b = %lg, c = %lg,\n", 
+            num_test, eq.a, eq.b, eq.c); 
+        RED_PRINT_ARG("Programm: x1 = %lg, x2 = %lg, root_count = %d\n", 
+            test_case.x1, test_case.x2, test_case.root_count);
+        RED_PRINT_ARG("Expected: x1 = %lg, x2 = %lg, root_count = %d\n",
+            eq.x1, eq.x2, eq.root_count);
 
     } else {
-        printf("%sTest %d: Success\n\n%s", 
-                GREEN_SYMBOLS, i,
-                DEFAULT_COLOR);
+        GREEN_PRINT_ARG("Test %d: Success\n", num_test);
     }
+
+    return 0;
+}
+
+int SpecAssert(int x, const char *ErrorStr, const char *file, const char *func, int line) {
+    
+    assert(isfinite(x));
+    assert(isfinite(line));
+    assert(ErrorStr);
+    assert(file);
+    assert(func);
+    
+    if (!x) {
+        RED_PRINT_ARG("Error:\n"
+                      "File:      %s\n"
+                      "Function:  %s\n"
+                      "Line:      %d\n"
+                      "%s\n", file, func, line, ErrorStr);
+        abort();
+    }
+
+    return 0;
 }
