@@ -7,10 +7,6 @@
 #include "RunTestFile.h" 
 #include "SolveFile.h"
 
-// todo README.md and docs (doxygen)
-// after rest
-// todo universal makefile (/include, /src, /Makefile should not depend of actual filenames in a project) - GNU make (docs)
-
 int main(const int argc, char* const argv[])
 {   
     if (argc == 1) {
@@ -28,7 +24,7 @@ int main(const int argc, char* const argv[])
 
             const char *TESTS_FILE_NAME = argv[2];
             run_all_tests(TESTS_FILE_NAME);       
-                                                                        //todo argv 
+                                                                       
         } else if (!strcmp(argv[1], "--test") && argc == 2) {
 
             const char *TESTS_FILE_NAME = "test.txt";
